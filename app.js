@@ -1,5 +1,5 @@
 /**
- * app.js - AI导航站主逻辑（API版）
+ * app.js - AI大全站主逻辑（API版）
  * 加载顺序：tools-data.js（兜底）→ app.js（本文件）
  * 优先从 /api/tools 读取数据，失败则使用 FALLBACK_TOOLS
  */
