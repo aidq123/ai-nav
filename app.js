@@ -406,13 +406,14 @@ async function handleSubmit(e) {
   }
 }
 
-// ===== 管理后台（API版）=====
+// ===== 管理后台（纯前端模式）=====
 let currentAdminTab = 'pending';
 let ADMIN_TOKEN = localStorage.getItem('ai_nav_admin_token') || '';
+let useLocalAdmin = false; // 是否使用本地模式
 
 function openAdminModal() {
   if (!ADMIN_TOKEN) {
-    const token = prompt('请输入管理 Token：');
+    const token = prompt('请输入管理 Token（任意密码即可）：');
     if (!token) return;
     ADMIN_TOKEN = token;
     localStorage.setItem('ai_nav_admin_token', token);
@@ -423,6 +424,7 @@ function openAdminModal() {
 }
 
 async function loadAdminData() {
+  // 先尝试从 API 加载
   try {
     const resp = await fetch('/api/admin/tools', {
       headers: { 'Admin-Token': ADMIN_TOKEN }
@@ -434,9 +436,24 @@ async function loadAdminData() {
       closeAdminModal();
       return;
     }
-    const list = await resp.json();
+    if (resp.ok) {
+      const list = await resp.json();
+      useLocalAdmin = false;
+      renderAdminStats(list);
+      renderAdminContent(list, currentAdminTab);
+      return;
+    }
+  } catch (_) {
+    // API 不可用，降级到本地模式
+  }
+
+  // 降级：从 localStorage 加载离线提交数据
+  useLocalAdmin = true;
+  try {
+    const list = JSON.parse(localStorage.getItem('ai_nav_offline_submits') || '[]');
     renderAdminStats(list);
     renderAdminContent(list, currentAdminTab);
+    console.log('[管理后台] 使用本地存储模式（后端 API 不可用）');
   } catch (e) {
     showToast('加载管理数据失败', 'error');
   }
@@ -495,6 +512,16 @@ function renderAdminContent(list, tab) {
 
 async function adminApprove(id) {
   if (!confirm('确认通过此工具？通过后将在前台展示。')) return;
+  if (useLocalAdmin) {
+    // 本地模式：修改 localStorage
+    let list = JSON.parse(localStorage.getItem('ai_nav_offline_submits') || '[]');
+    const item = list.find(r => r.id === id);
+    if (item) { item.status = 'approved'; item.reviewedAt = new Date().toISOString(); }
+    localStorage.setItem('ai_nav_offline_submits', JSON.stringify(list));
+    showToast('已通过（本地模式）', 'success');
+    loadAdminData();
+    return;
+  }
   try {
     const resp = await fetch(`/api/admin/tools?id=${id}&action=approve`, {
       method: 'PUT',
@@ -503,37 +530,48 @@ async function adminApprove(id) {
     if (resp.ok) {
       showToast('已通过审核', 'success');
       loadAdminData();
-      loadTools(); // 刷新前台
+      loadTools();
     }
   } catch { showToast('操作失败', 'error'); }
 }
 
 async function adminReject(id) {
   if (!confirm('确认拒绝此提交？')) return;
+  if (useLocalAdmin) {
+    let list = JSON.parse(localStorage.getItem('ai_nav_offline_submits') || '[]');
+    const item = list.find(r => r.id === id);
+    if (item) { item.status = 'rejected'; item.reviewedAt = new Date().toISOString(); }
+    localStorage.setItem('ai_nav_offline_submits', JSON.stringify(list));
+    showToast('已拒绝（本地模式）', 'error');
+    loadAdminData();
+    return;
+  }
   try {
     const resp = await fetch(`/api/admin/tools?id=${id}&action=reject`, {
       method: 'PUT',
       headers: { 'Admin-Token': ADMIN_TOKEN }
     });
-    if (resp.ok) {
-      showToast('已拒绝', 'error');
-      loadAdminData();
-    }
+    if (resp.ok) { showToast('已拒绝', 'error'); loadAdminData(); }
   } catch { showToast('操作失败', 'error'); }
 }
 
 async function adminDelete(id) {
   if (!confirm('确认删除此记录？')) return;
+  if (useLocalAdmin) {
+    let list = JSON.parse(localStorage.getItem('ai_nav_offline_submits') || '[]');
+    list = list.filter(r => r.id !== id);
+    localStorage.setItem('ai_nav_offline_submits', JSON.stringify(list));
+    showToast('已删除（本地模式）', 'info');
+    loadAdminData();
+    loadTools();
+    return;
+  }
   try {
     const resp = await fetch(`/api/admin/tools?id=${id}`, {
       method: 'DELETE',
       headers: { 'Admin-Token': ADMIN_TOKEN }
     });
-    if (resp.ok) {
-      showToast('已删除', 'info');
-      loadAdminData();
-      loadTools();
-    }
+    if (resp.ok) { showToast('已删除', 'info'); loadAdminData(); loadTools(); }
   } catch { showToast('操作失败', 'error'); }
 }
 
