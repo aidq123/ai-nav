@@ -75,9 +75,12 @@ function getToolAddedAt(toolId) {
 
 // ===== 加载工具数据 =====
 async function loadTools() {
-  // 先尝试从 API 加载
+  // 先尝试从 API 加载（3秒超时）
   try {
-    const resp = await fetch('/api/tools', { cache: 'no-store' });
+    const resp = await fetch('/api/tools', { 
+      cache: 'no-store', 
+      signal: AbortSignal.timeout(3000) 
+    });
     if (resp.ok) {
       const apiTools = await resp.json();
       if (Array.isArray(apiTools) && apiTools.length > 0) {
