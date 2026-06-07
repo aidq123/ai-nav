@@ -1,7 +1,7 @@
 /**
- * app.js - AI大全站主逻辑（API版）
- * 加载顺序：tools-data.js（兜底）→ app.js（本文件）
- * 优先从 /api/tools 读取数据，失败则使用 FALLBACK_TOOLS
+ * app.js - AI大全站主逻辑（远程数据版）
+ * 数据源优先级：GitHub stats.json → 本地硬编码兜底
+ * 加载顺序：tools-data.js → app.js（本文件）
  */
 const categories = {
   chat:  { label:'AI对话',  icon:'💬' },
@@ -27,6 +27,51 @@ const categories = {
 let tools = [];
 let currentCat = 'all';
 let searchQuery = '';
+
+// ===== 远程数据源 =====
+const STATS_URL = 'https://raw.githubusercontent.com/aidq123/ai-nav/master/data/stats.json';
+// 备用 CDN 链接（GitHub 被墙时自动切换）
+const STATS_URL_BACKUP = 'https://cdn.jsdelivr.net/gh/aidq123/ai-nav@master/data/stats.json';
+
+/** 远程加载的统计数据 */
+let remoteStats = null;  // { clicks: {}, addedAt: {}, totalClicks: N, lastUpdated: '' }
+
+/** 从远程 JSON 加载统计数据 */
+async function loadRemoteStats() {
+  for (const url of [STATS_URL, STATS_URL_BACKUP]) {
+    try {
+      const resp = await fetch(url, { cache: 'no-cache', signal: AbortSignal.timeout(5000) });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.clicks && data.addedAt) {
+          remoteStats = data;
+          console.log(`[数据] 远程统计已加载（总点击 ${data.totalClicks || '-'}，更新于 ${data.lastUpdated || '-'}）`);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn(`[数据] ${url} 加载失败：${e.message}`);
+    }
+  }
+  console.warn('[数据] 远程数据不可用，使用本地缓存');
+  return false;
+}
+
+/** 获取工具热度值：远程优先 → 本地 HEAT_DATA 兜底 */
+function getToolHeat(toolId) {
+  if (remoteStats && remoteStats.clicks && remoteStats.clicks[toolId]) {
+    return remoteStats.clicks[toolId];
+  }
+  return HEAT_DATA[toolId] || 0;
+}
+
+/** 获取工具收录日期：远程优先 → 本地 LATEST_DATES 兜底 */
+function getToolAddedAt(toolId) {
+  if (remoteStats && remoteStats.addedAt && remoteStats.addedAt[toolId]) {
+    return remoteStats.addedAt[toolId];
+  }
+  return LATEST_DATES[toolId];
+}
 
 // ===== 加载工具数据 =====
 async function loadTools() {
@@ -66,10 +111,7 @@ function renderAll() {
   renderSidebar();
 }
 
-/**
- * 热度数据表：每个工具的固定热度值（单位：k）
- * 基于工具知名度/流行度的合理估值，数值稳定不变
- */
+/** 本地热度兜底（远程不可用时使用） */
 const HEAT_DATA = {
   // === AI对话（最热门）===
   1:98, 2:95, 3:88, 4:82, 5:79, 6:76,
@@ -100,7 +142,22 @@ const HEAT_DATA = {
   // AI 3D / 图像处理 / 思维导图 / 简历 / 数据分析
   141:26, 142:21, 143:17, 243:23, 244:18, 245:15,
   261:20, 262:24, 263:19, 281:27, 282:16, 283:14,
-  301:21, 302:17, 303:15, 321:18, 322:25, 323:13,
+  301:21, 302:17, 303:15,   321:18, 322:25, 323:13,
+};
+
+/** 本地收录日期兜底（远程不可用时使用） */
+const LATEST_DATES = {
+  321:'2026-06-05', 322:'2026-06-04', 323:'2026-06-03',
+  301:'2026-05-30', 302:'2026-05-28', 303:'2026-05-25',
+  281:'2026-05-22', 282:'2026-05-20', 283:'2026-05-18',
+  261:'2026-05-15', 262:'2026-05-12', 263:'2026-05-10',
+  245:'2026-05-08', 244:'2026-05-05', 225:'2026-05-02', 226:'2026-04-30',
+  204:'2026-04-25', 166:'2026-04-22', 169:'2026-04-18',
+  146:'2026-04-15', 147:'2026-04-12', 168:'2026-04-10',
+  105:'2026-04-08', 48:'2026-04-05', 69:'2026-04-02', 80:'2026-03-30',
+  29:'2026-03-28', 46:'2026-03-25', 30:'2026-03-22',
+  88:'2026-03-18', 89:'2026-03-15', 87:'2026-03-12',
+  33:'2026-03-08', 15:'2026-03-05', 16:'2026-03-01',
 };
 
 /** 记录用户本地点击（localStorage） */
@@ -217,58 +274,45 @@ function timeAgo(dateStr) {
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
-// ===== 热度排行（固定数据，稳定不变）=====
+// ===== 热度排行（远程数据优先，本地兜底）=====
 function renderRanking() {
   const rankEl = document.getElementById('rankList');
   if (!rankEl) return;
-  // 按 HEAT_DATA 中的热度值降序排列
+  // 按远程/本地热度值降序排列
   const sorted = [...tools]
-    .filter(t => HEAT_DATA[t.id])
-    .sort((a, b) => (HEAT_DATA[b.id]||0) - (HEAT_DATA[a.id]||0))
+    .filter(t => getToolHeat(t.id) > 0)
+    .sort((a, b) => getToolHeat(b.id) - getToolHeat(a.id))
     .slice(0, 8);
   // 如果工具太少，补充没有热度数据的工具
   if (sorted.length < 8) {
     const rest = tools
-      .filter(t => !HEAT_DATA[t.id] && !sorted.includes(t))
+      .filter(t => getToolHeat(t.id) === 0 && !sorted.includes(t))
       .sort((a, b) => (b.id || 0) - (a.id || 0))
       .slice(0, 8 - sorted.length);
     sorted.push(...rest);
   }
-  rankEl.innerHTML = sorted.map((t, i) => `
+  rankEl.innerHTML = sorted.map((t, i) => {
+    const heat = getToolHeat(t.id);
+    const heatDisplay = heat >= 1000 ? (heat / 1000).toFixed(1) + 'k' : heat;
+    return `
     <li>
       <span class="rank-num">${i + 1}</span>
       <span class="rank-name">${t.name}</span>
-      <span class="rank-heat">${HEAT_DATA[t.id] || Math.floor(10 + Math.max(0,20-i*2))}k</span>
-    </li>
-  `).join('');
+      <span class="rank-heat">${heat || Math.floor(10 + Math.max(0,20-i*2))}k</span>
+    </li>`;
+  }).join('');
 }
 
-// ===== 最新收录（按 id 倒序，id越大越新）=====
-const LATEST_DATES = {
-  // 模拟各工具的"收录日期"（id越大日期越新）
-  321:'2026-06-05', 322:'2026-06-04', 323:'2026-06-03',
-  301:'2026-05-30', 302:'2026-05-28', 303:'2026-05-25',
-  281:'2026-05-22', 282:'2026-05-20', 283:'2026-05-18',
-  261:'2026-05-15', 262:'2026-05-12', 263:'2026-05-10',
-  245:'2026-05-08', 244:'2026-05-05', 225:'2026-05-02', 226:'2026-04-30',
-  204:'2026-04-25', 166:'2026-04-22', 169:'2026-04-18',
-  146:'2026-04-15', 147:'2026-04-12', 168:'2026-04-10',
-  105:'2026-04-08', 48:'2026-04-05', 69:'2026-04-02', 80:'2026-03-30',
-  29:'2026-03-28', 46:'2026-03-25', 30:'2026-03-22',
-  88:'2026-03-18', 89:'2026-03-15', 87:'2026-03-12',
-  33:'2026-03-08', 15:'2026-03-05', 16:'2026-03-01',
-};
-
+// ===== 最新收录（远程日期优先，本地兜底）=====
 function renderLatest() {
   const updateEl = document.getElementById('updateList');
   if (!updateEl) return;
   // 按 id 倒序（最新添加的工具 id 最大）
   const newest = [...tools].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 8);
   updateEl.innerHTML = newest.map(t => {
-    // 有模拟日期就用模拟日期，否则根据 id 算一个
-    let dateStr = LATEST_DATES[t.id];
+    // 有远程/模拟日期就用，否则根据 id 算一个
+    let dateStr = getToolAddedAt(t.id);
     if (!dateStr) {
-      // 根据id估算：id越大越新，假设当前是2026年6月7日
       const baseDate = new Date('2026-06-07');
       const daysAgo = Math.max(1, Math.floor((330 - (t.id||0)) / 3));
       baseDate.setDate(baseDate.getDate() - daysAgo);
@@ -657,6 +701,12 @@ async function initApp() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeSubmitModal(); closeAdminModal(); }
   });
+
+  // 并行加载：工具数据 + 远程统计数据
+  await Promise.all([loadTools(), loadRemoteStats()]);
+
+  // 数据加载完成后重新渲染侧边栏（使用远程数据）
+  renderSidebar();
 
   // 读取 ?cat=xxx 参数，加载完成后自动筛选分类
   const params = new URLSearchParams(window.location.search);
