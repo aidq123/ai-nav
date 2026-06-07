@@ -17,7 +17,11 @@ const categories = {
   edu:    { label:'AI学习',  icon:'📚' },
   agent:  { label:'AI智能体',icon:'🤖' },
   '3d':   { label:'AI 3D',   icon:'🧊' },
-  other:  { label:'其他',     icon:'⚡' }
+  'image-proc':{ label:'AI图像处理',icon:'🖼️' },
+  mind:    { label:'AI思维导图', icon:'🧠' },
+  resume:  { label:'AI简历',   icon:'📄' },
+  data:    { label:'AI数据分析', icon:'📈' },
+  other:   { label:'其他',     icon:'⚡' }
 };
 
 let tools = [];
