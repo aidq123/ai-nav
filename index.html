@@ -102,30 +102,33 @@
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
     text-decoration: none;
     flex-shrink: 0;
   }
   .logo-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    box-shadow: 0 2px 12px rgba(108,92,231,0.35);
   }
   .logo-icon svg {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
   }
   .logo-text {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.3px;
+    font-size: 21px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    font-family: inherit;
   }
-  .logo-text span { color: var(--primary-light); }
   .search-bar {
     flex: 1;
     max-width: 520px;
@@ -1195,31 +1198,20 @@
   <div class="header-inner">
     <a href="#" class="logo">
       <div class="logo-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="lg1" x1="4" y1="4" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <linearGradient id="lg1" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#6C5CE7"/>
-              <stop offset="50%" stop-color="#8B7CF7"/>
+              <stop offset="55%" stop-color="#A29BFE"/>
               <stop offset="100%" stop-color="#00CEC9"/>
             </linearGradient>
-            <linearGradient id="lg2" x1="8" y1="36" x2="32" y2="10" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#00CEC9"/>
-              <stop offset="100%" stop-color="#6C5CE7"/>
-            </linearGradient>
           </defs>
-          <!-- 圆角背景 -->
-          <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="url(#lg1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-          <!-- AI 字母 A -->
-          <path d="M13 27L17 14h1.5l4 13h-1.6l-.9-3h-4.5l-.9 3H13zm3-4.5h3l-1.5-5-1.5 5z" fill="#fff"/>
-          <!-- AI 字母 I -->
-          <rect x="25" y="14" width="2.6" height="9.2" rx="1.3" fill="#fff"/>
-          <circle cx="26.3" cy="25.8" r="1.4" fill="#fff"/>
-          <!-- 装饰圆点/光效 -->
-          <circle cx="31" cy="10" r="1.8" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="29" cy="12.5" r="1" fill="rgba(255,255,255,0.22)"/>
+          <rect x="1" y="1" width="36" height="36" rx="10" fill="url(#lg1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <text x="19" y="25.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="13.5" fill="#fff" letter-spacing="-0.3">AI</text>
+          <circle cx="29" cy="8" r="2" fill="rgba(255,255,255,0.35)"/>
         </svg>
       </div>
-      <span class="logo-text">AI<span>大全</span></span>
+      <span class="logo-text">大全</span>
     </a>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
@@ -1532,7 +1524,13 @@
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <span class="logo-text">AI<span style="color:var(--primary-light)">大全</span></span>
+      <div class="logo-icon" style="width:30px;height:30px;border-radius:8px; box-shadow:none; flex-shrink:0;">
+        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="url(#lg1)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+          <text x="15" y="20.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="10.5" fill="#fff" letter-spacing="-0.2">AI</text>
+        </svg>
+      </div>
+      <span class="logo-text" style="font-size:17px;">大全</span>
       <p>AI大全 - 专注收录全球优质AI工具<br>帮助你高效找到最适合的AI助手<br>网址：Aidq123.cn</p>
     </div>
     <div class="footer-links">
