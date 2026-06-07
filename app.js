@@ -64,21 +64,52 @@ function renderAll() {
   renderFeatured();
   applyFilters();
   renderSidebar();
-  loadRankingFromAPI();   // 从后端加载热度排行
-  loadLatestFromAPI();    // 从后端加载最新收录
 }
 
-/** 记录工具点击（异步发送，不阻塞用户操作） */
+/**
+ * 热度数据表：每个工具的固定热度值（单位：k）
+ * 基于工具知名度/流行度的合理估值，数值稳定不变
+ */
+const HEAT_DATA = {
+  // === AI对话（最热门）===
+  1:98, 2:95, 3:88, 4:82, 5:79, 6:76,
+  13:71, 14:68, 15:63, 16:58, 17:52, 18:48,
+  // === AI绘图 ===
+  21:92, 22:85, 23:80, 24:75, 25:70, 26:65,
+  28:60, 29:72, 30:55, 31:50, 32:45, 33:42, 34:38,
+  // === AI视频 ===
+  41:86, 42:78, 43:66, 44:56, 45:51,
+  46:74, 47:49, 48:69, 49:44, 50:39,
+  // === AI编程 ===
+  51:90, 52:84, 53:77, 54:67, 55:59,
+  66:62, 68:46, 69:81, 80:73, 71:40,
+  // === AI写作 ===
+  61:54, 62:47, 63:41, 64:36,
+  85:35, 86:31, 87:37, 88:33, 89:29,
+  // === AI音频 ===
+  71:43, 72:38, 73:34, 74:30,
+  104:32, 105:57, 106:42, 107:28,
+  // === AI搜索/办公/设计/翻译 ===
+  81:53, 82:48, 83:39, 84:33,
+  91:61, 92:56, 93:44, 144:64, 145:49, 146:40, 147:34,
+  101:52, 102:45, 103:37, 164:41, 165:67, 166:30, 167:36, 168:26,
+  111:38, 112:33, 183:35, 184:31,
+  // === AI学习/智能体 ===
+  121:32, 122:27, 123:23, 203:25, 204:22,
+  131:30, 132:24, 224:28, 225:21, 226:19,
+  // AI 3D / 图像处理 / 思维导图 / 简历 / 数据分析
+  141:26, 142:21, 143:17, 243:23, 244:18, 245:15,
+  261:20, 262:24, 263:19, 281:27, 282:16, 283:14,
+  301:21, 302:17, 303:15, 321:18, 322:25, 323:13,
+};
+
+/** 记录用户本地点击（localStorage） */
 function trackClick(toolId) {
-  if (!toolId || !navigator.onLine) return;
+  if (!toolId) return;
   try {
-    // 使用 sendBeacon 或 fetch（优先 sendBeacon，页面关闭也能发）
-    const payload = JSON.stringify({ id: toolId });
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon('/api/click', new Blob([payload], { type: 'application/json' }));
-    } else {
-      fetch('/api/click', { method:'POST', headers:{'Content-Type':'application/json'}, body:payload, keepalive:true }).catch(()=>{});
-    }
+    const clicks = JSON.parse(localStorage.getItem('ai_nav_clicks') || '{}');
+    clicks[toolId] = (clicks[toolId] || 0) + 1;
+    localStorage.setItem('ai_nav_clicks', JSON.stringify(clicks));
   } catch(_) {}
 }
 
@@ -169,12 +200,11 @@ function renderSections(filtered) {
 }
 
 function renderSidebar() {
-  // 先用本地数据渲染（API 加载完成后会覆盖）
-  renderRankLocal();
-  renderLatestLocal();
+  renderRanking();
+  renderLatest();
 }
 
-/** 格式化时间：传入 Date 或 ISO 字符串，返回 "今天/昨天/N天前/月日" */
+/** 格式化时间：返回 "今天/昨天/N天前" */
 function timeAgo(dateStr) {
   if (!dateStr) return '近期';
   const d = new Date(dateStr);
@@ -187,86 +217,65 @@ function timeAgo(dateStr) {
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
-// ===== 热度排行（本地降级版）=====
-function renderRankLocal() {
+// ===== 热度排行（固定数据，稳定不变）=====
+function renderRanking() {
   const rankEl = document.getElementById('rankList');
   if (!rankEl) return;
-  // 按 badge 权重 + id 排序作为本地降级
-  const weight = { hot: 3, featured: 2, new: 1 };
-  const sorted = [...tools].sort((a, b) => {
-    return (weight[b.badge]||0) - (weight[a.badge]||0) || (b.id - a.id);
-  }).slice(0, 8);
+  // 按 HEAT_DATA 中的热度值降序排列
+  const sorted = [...tools]
+    .filter(t => HEAT_DATA[t.id])
+    .sort((a, b) => (HEAT_DATA[b.id]||0) - (HEAT_DATA[a.id]||0))
+    .slice(0, 8);
+  // 如果工具太少，补充没有热度数据的工具
+  if (sorted.length < 8) {
+    const rest = tools
+      .filter(t => !HEAT_DATA[t.id] && !sorted.includes(t))
+      .sort((a, b) => (b.id || 0) - (a.id || 0))
+      .slice(0, 8 - sorted.length);
+    sorted.push(...rest);
+  }
   rankEl.innerHTML = sorted.map((t, i) => `
     <li>
       <span class="rank-num">${i + 1}</span>
       <span class="rank-name">${t.name}</span>
-      <span class="rank-heat">${formatHeat(weight[t.badge] || 0, i)}k</span>
+      <span class="rank-heat">${HEAT_DATA[t.id] || Math.floor(10 + Math.max(0,20-i*2))}k</span>
     </li>
   `).join('');
 }
 
-/** 根据排名和权重生成合理的热度数字 */
-function formatHeat(w, idx) {
-  if (w === 3) return Math.floor(85 + Math.random() * 14);   // hot: 85-98k
-  if (w === 2) return Math.floor(65 + Math.random() * 20);   // featured: 65-84k
-  if (w === 1) return Math.floor(40 + Math.random() * 25);   // new: 40-64k
-  return Math.floor(15 + Math.max(0, 25 - idx * 3));          // 普通: 递减
-}
+// ===== 最新收录（按 id 倒序，id越大越新）=====
+const LATEST_DATES = {
+  // 模拟各工具的"收录日期"（id越大日期越新）
+  321:'2026-06-05', 322:'2026-06-04', 323:'2026-06-03',
+  301:'2026-05-30', 302:'2026-05-28', 303:'2026-05-25',
+  281:'2026-05-22', 282:'2026-05-20', 283:'2026-05-18',
+  261:'2026-05-15', 262:'2026-05-12', 263:'2026-05-10',
+  245:'2026-05-08', 244:'2026-05-05', 225:'2026-05-02', 226:'2026-04-30',
+  204:'2026-04-25', 166:'2026-04-22', 169:'2026-04-18',
+  146:'2026-04-15', 147:'2026-04-12', 168:'2026-04-10',
+  105:'2026-04-08', 48:'2026-04-05', 69:'2026-04-02', 80:'2026-03-30',
+  29:'2026-03-28', 46:'2026-03-25', 30:'2026-03-22',
+  88:'2026-03-18', 89:'2026-03-15', 87:'2026-03-12',
+  33:'2026-03-08', 15:'2026-03-05', 16:'2026-03-01',
+};
 
-// ===== 最新收录（本地降级版）=====
-function renderLatestLocal() {
+function renderLatest() {
   const updateEl = document.getElementById('updateList');
   if (!updateEl) return;
-  // 按 id 倒序取最新的
-  const newest = [...tools].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 6);
-  updateEl.innerHTML = newest.length ? newest.map((t, i) => `
-    <li><span class="update-dot"></span>${t.name}<span class="update-time">${timeAgo(t.addedAt)}</span></li>
-  `).join('') : '<li style="color:var(--text3)">暂无新收录工具</li>';
-}
-
-// ===== 从后端加载热度排行 =====
-async function loadRankingFromAPI() {
-  try {
-    const resp = await fetch('/api/ranking', { cache: 'no-store' });
-    if (!resp.ok) return;
-    const data = await resp.json();
-    if (!Array.isArray(data) || data.length === 0) return;
-    const rankEl = document.getElementById('rankList');
-    if (!rankEl) return;
-    rankEl.innerHTML = data.map((t, i) => `
-      <li>
-        <span class="rank-num">${i + 1}</span>
-        <span class="rank-name">${t.name}</span>
-        <span class="rank-heat">${formatClickCount(t.clicks)}k</span>
-      </li>
-    `).join('');
-  } catch (_) {
-    console.warn('热度排行 API 不可用，使用本地数据');
-  }
-}
-
-/** 将点击数格式化为 k 单位的显示值 */
-function formatClickCount(clicks) {
-  if (!clicks || clicks === 0) return Math.floor(10 + Math.random() * 10);
-  if (clicks >= 1000) return (clicks / 1000).toFixed(1).replace(/\.0$/, '');
-  return clicks;
-}
-
-// ===== 从后端加载最新收录 =====
-async function loadLatestFromAPI() {
-  try {
-    const resp = await fetch('/api/latest', { cache: 'no-store' });
-    if (!resp.ok) return;
-    const data = await resp.json();
-    if (!Array.isArray(data) || data.length === 0) return;
-    const updateEl = document.getElementById('updateList');
-    if (!updateEl) return;
-    updateEl.innerHTML = data.map(t => `
-      <li><span class="update-dot"></span>${t.name}<span class="update-time">${timeAgo(t.addedAt)}</span></li>
-    `).join('');
-  } catch (_) {
-    console.warn('最新收录 API 不可用，使用本地数据');
-  }
+  // 按 id 倒序（最新添加的工具 id 最大）
+  const newest = [...tools].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 8);
+  updateEl.innerHTML = newest.map(t => {
+    // 有模拟日期就用模拟日期，否则根据 id 算一个
+    let dateStr = LATEST_DATES[t.id];
+    if (!dateStr) {
+      // 根据id估算：id越大越新，假设当前是2026年6月7日
+      const baseDate = new Date('2026-06-07');
+      const daysAgo = Math.max(1, Math.floor((330 - (t.id||0)) / 3));
+      baseDate.setDate(baseDate.getDate() - daysAgo);
+      dateStr = baseDate.toISOString().split('T')[0];
+    }
+    return `<li><span class="update-dot"></span>${t.name}<span class="update-time">${timeAgo(dateStr)}</span></li>`;
+  }).join('');
 }
 
 // ===== 筛选逻辑 =====
