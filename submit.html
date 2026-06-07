@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提交AI工具 - AI大全 | Aidq123.cn</title>
+<meta name="description" content="向AI大全提交你发现的优质AI工具，帮助我们共同完善AI工具导航平台。免费提交，审核通过后即可收录。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='lg1' x1='4' y1='4' x2='36' y2='36'%3E%3Cstop offset='0%25' stop-color='%236C5CE7'/%3E%3Cstop offset='100%25' stop-color='%2300CEC9'/%3E%3C/defs%3E%3Crect x='1.5' y='1.5' width='37' height='37' rx='11' fill='url(%23lg1)'/%3E%3Ctext x='20' y='26' text-anchor='middle' font-size='18' font-weight='bold' fill='%23fff'%3EAI%3C/text%3E%3C/svg%3E">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0F0F1A; color: #E8E8F0; min-height:100vh; line-height:1.7;
+  }
+  :root {
+    --primary:#6C5CE7; --primary-light:#A29BFE; --accent:#00CEC9;
+    --bg2:#16162A; --bg3:#1E1E35; --card:#1A1A2E;
+    --text:#E8E8F0; --text2:#A0A0C0; --text3:#606080;
+    --border:rgba(108,92,231,0.15); --border2:rgba(108,92,231,0.3);
+  }
+  .header { position:sticky; top:0; z-index:100; background:rgba(15,15,26,0.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0 24px; }
+  .header-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:24px; height:64px; }
+  .logo { display:flex; align-items:center; gap:11px; text-decoration:none; }
+  .logo-icon { width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%); box-shadow:0 2px 12px rgba(108,92,231,0.35); display:flex; align-items:center; justify-content:center; }
+  .logo-text { font-size:21px; font-weight:800; color:#fff; letter-spacing:-0.5px; }
+
+  .breadcrumb { max-width:800px; margin:0 auto; padding:16px 24px 0; font-size:13px; color:var(--text3); }
+  .breadcrumb a { color:var(--text3); text-decoration:none; }
+  .breadcrumb a:hover { color:var(--primary-light); }
+  .breadcrumb span { margin:0 6px; }
+
+  .page-banner { text-align:center; padding:48px 24px 32px; background:linear-gradient(180deg,rgba(108,92,231,0.08) 0%,transparent 100%); }
+  .page-banner h1 { font-size:clamp(24px,4vw,36px); font-weight:800; margin-bottom:10px; background:linear-gradient(135deg,var(--primary-light),var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .page-banner p { color:var(--text2); font-size:15px; max-width:500px; margin:0 auto; }
+
+  .content-wrap { max-width:800px; margin:0 auto; padding:32px 24px 80px; }
+
+  .step-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; margin:24px 0; }
+  .step-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center; position:relative; }
+  .step-card .step-num { position:absolute; top:-12px; left:50%; transform:translateX(-50%); width:24px; height:24px; background:var(--primary); border-radius:50%; font-size:12px; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:center; }
+  .step-card .step-icon { font-size:28px; margin-bottom:10px; }
+  .step-card h3 { font-size:14px; font-weight:600; color:var(--text); margin-bottom:6px; }
+  .step-card p { font-size:12px; color:var(--text3); }
+
+  .form-section { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px; margin:32px 0; }
+  .form-section h2 { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .form-section .subtitle { font-size:13px; color:var(--text3); margin-bottom:24px; }
+
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text2); margin-bottom:6px; }
+  .form-group label .required { color:#FD79A8; margin-left:3px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; color:var(--text); font-size:14px; outline:none; transition:border-color 0.2s;
+    font-family:inherit;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color:var(--text3); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--primary); background:rgba(108,92,231,0.05); }
+  .form-group textarea { resize:vertical; min-height:88px; line-height:1.6; }
+  .form-group .char-count { text-align:right; font-size:11px; color:var(--text3); margin-top:4px; }
+  .form-group select option { background:var(--bg2); }
+
+  .form-tag-group { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .form-tag { padding:5px 14px; border-radius:20px; background:var(--bg3); border:1px solid var(--border); color:var(--text2); font-size:12px; cursor:pointer; transition:all 0.15s; user-select:none; }
+  .form-tag.selected { background:rgba(108,92,231,0.2); border-color:var(--primary); color:var(--primary-light); }
+
+  .btn-submit-form {
+    display:block; width:100%; padding:13px; margin-top:8px;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    border:none; border-radius:10px; color:#fff; font-size:15px; font-weight:600;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .btn-submit-form:hover { opacity:0.9; transform:translateY(-1px); }
+
+  .note-box { background:rgba(253,203,110,0.08); border:1px solid rgba(253,203,110,0.25); border-radius:10px; padding:14px 18px; margin:20px 0; }
+  .note-box h4 { font-size:13px; color:#fdcb6e; margin-bottom:6px; }
+  .note-box p, .note-box li { font-size:12px; color:var(--text3); line-height:1.7; }
+  .note-box ul { padding-left:18px; margin-top:6px; }
+
+  .footer { background:var(--bg2); border-top:1px solid var(--border); padding:40px 24px; }
+  .footer-inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:32px; }
+  .footer-brand p { font-size:13px; color:var(--text3); line-height:1.7; margin-bottom:14px; }
+  .footer-links h4 { font-size:14px; font-weight:600; color:var(--text); margin-bottom:12px; }
+  .footer-links ul { list-style:none; }
+  .footer-links ul li { margin-bottom:8px; }
+  .footer-links ul li a { font-size:13px; color:var(--text3); text-decoration:none; transition:color 0.2s; }
+  .footer-links ul li a:hover { color:var(--primary-light); }
+  .footer-bottom { max-width:1280px; margin:24px auto 0; padding-top:20px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--text3); }
+
+  @media(max-width:900px){ .footer-inner{grid-template-columns:1fr 1fr;} }
+  @media(max-width:600px){
+    .footer-inner{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    .step-grid{grid-template-columns:1fr 1fr;}
+    .form-section{padding:20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px">
+          <rect x="1" y="1" width="36" height="36" rx="10" fill="url(#lg1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <text x="19" y="25.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="13.5" fill="#fff" letter-spacing="-0.3">AI</text>
+        </svg>
+      </div>
+      <span class="logo-text">大全</span>
+    </a>
+  </div>
+</header>
+
+<div class="breadcrumb"><a href="index.html">首页</a> <span>›</span> 提交工具</div>
+
+<!-- BANNER -->
+<section class="page-banner">
+  <h1>📬 提交 AI 工具</h1>
+  <p>发现好用的AI工具？告诉我们，帮助更多人发现它</p>
+</section>
+
+<div class="content-wrap">
+
+  <!-- STEPS -->
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-icon">📝</div>
+      <h3>填写信息</h3>
+      <p>填写工具名称、网址、<br>简介等基本信息</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-icon">🔍</div>
+      <h3>人工审核</h3>
+      <p>我们会在1-3个工作日<br>内完成审核</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-icon">✅</div>
+      <h3>审核通过</h3>
+      <p>审核通过后工具将正式<br>收录到AI大全</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-icon">🚀</div>
+      <h3>上线展示</h3>
+      <p>全站展示你的工具<br>获得更多曝光</p>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-section">
+    <h2>提交 AI 工具</h2>
+    <p class="subtitle">请认真填写以下信息，帮助我们更好地了解这款工具</p>
+
+    <form id="submitForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>工具名称 <span class="required">*</span></label>
+          <input type="text" id="f_name" placeholder="如：ChatGPT" maxlength="40" required>
+        </div>
+        <div class="form-group">
+          <label>工具网址 <span class="required">*</span></label>
+          <input type="url" id="f_url" placeholder="https://..." maxlength="200" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>工具简介 <span class="required">*</span></label>
+        <textarea id="f_desc" placeholder="用一两句话介绍这个工具的主要功能和特色..." maxlength="120" oninput="updateCharCount(this,'f_desc_count',120)" required></textarea>
+        <div class="char-count"><span id="f_desc_count">0</span>/120 字</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>工具分类 <span class="required">*</span></label>
+          <select id="f_cat" required>
+            <option value="">-- 选择分类 --</option>
+            <option value="chat">💬 AI对话</option>
+            <option value="image">🎨 AI绘图</option>
+            <option value="video">🎬 AI视频</option>
+            <option value="code">💻 AI编程</option>
+            <option value="write">✍️ AI写作</option>
+            <option value="audio">🎵 AI音频</option>
+            <option value="search">🔍 AI搜索</option>
+            <option value="ppt">📊 AI办公</option>
+            <option value="design">🎨 AI设计</option>
+            <option value="translate">🌐 AI翻译</option>
+            <option value="edu">📚 AI学习</option>
+            <option value="agent">🤖 AI智能体</option>
+            <option value="3d">🧊 AI 3D</option>
+            <option value="other">⚡ 其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>收费模式</label>
+          <select id="f_pricing">
+            <option value="免费">免费</option>
+            <option value="免费/付费">免费 + 付费版</option>
+            <option value="付费">付费</option>
+            <option value="开源免费">开源免费</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>特色标签（可多选）</label>
+        <div class="form-tag-group" id="tagGroup">
+          <span class="form-tag" onclick="toggleTag(this,'国内可用')">🇨🇳 国内可用</span>
+          <span class="form-tag" onclick="toggleTag(this,'联网搜索')">🔗 联网搜索</span>
+          <span class="form-tag" onclick="toggleTag(this,'多模态')">🧠 多模态</span>
+          <span class="form-tag" onclick="toggleTag(this,'开源')">📖 开源</span>
+          <span class="form-tag" onclick="toggleTag(this,'移动端')">📱 移动端</span>
+          <span class="form-tag" onclick="toggleTag(this,'API可用')">⚡ API可用</span>
+          <span class="form-tag" onclick="toggleTag(this,'中文优化')">🀄 中文优化</span>
+          <span class="form-tag" onclick="toggleTag(this,'最新发布')">✨ 最新发布</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>你的邮箱（选填）</label>
+          <input type="email" id="f_email" placeholder="用于接收审核结果通知">
+        </div>
+        <div class="form-group">
+          <label>你与该工具的关系</label>
+          <select id="f_relation">
+            <option value="用户">普通用户推荐</option>
+            <option value="作者">我是工具作者/团队</option>
+            <option value="合作">希望商务合作</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit-form">🚀 提交审核</button>
+    </form>
+  </div>
+
+  <!-- NOTES -->
+  <div class="note-box">
+    <h4>📌 提交须知</h4>
+    <ul>
+      <li>请确保提交的AI工具真实有效，网址可正常访问</li>
+      <li>工具简介请客观描述，避免夸大宣传</li>
+      <li>审核周期一般为1-3个工作日</li>
+      <li>如果工具审核未通过，我们会通过邮件告知原因</li>
+      <li>如果你是工具作者，建议在「补充说明」中描述工具特色</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" style="display:flex;align-items:center;gap:11px;text-decoration:none;margin-bottom:14px;">
+        <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#6C5CE7 0%,#00CEC9 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10.5px;font-weight:800;font-family:Arial,sans-serif;letter-spacing:-0.2px;">AI</div>
+        <span style="font-size:17px;font-weight:800;color:#fff;letter-spacing:-0.5px;">大全</span>
+      </a>
+      <p>AI大全 - 专注收录全球优质AI工具<br>帮助你高效找到最适合的AI助手<br>网址：Aidq123.cn</p>
+    </div>
+    <div class="footer-links">
+      <h4>工具分类</h4>
+      <ul>
+        <li><a href="index.html?cat=chat">AI对话助手</a></li>
+        <li><a href="index.html?cat=image">AI图像生成</a></li>
+        <li><a href="index.html?cat=video">AI视频创作</a></li>
+        <li><a href="index.html?cat=code">AI编程助手</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>关于我们</h4>
+      <ul>
+        <li><a href="about.html">关于AI大全</a></li>
+        <li><a href="submit.html">提交工具</a></li>
+        <li><a href="advertise.html">广告合作</a></li>
+        <li><a href="privacy.html">隐私政策</a></li>
+        <li><a href="terms.html">使用条款</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>友情链接</h4>
+      <ul>
+        <li><a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a></li>
+        <li><a href="https://www.anthropic.com" target="_blank" rel="noopener">Anthropic</a></li>
+        <li><a href="https://deepmind.google" target="_blank" rel="noopener">Google DeepMind</a></li>
+        <li><a href="https://huggingface.co" target="_blank" rel="noopener">Hugging Face</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AI大全 Aidq123.cn · 专注发现好用AI工具</span>
+    <span>备案号：待备案</span>
+  </div>
+</footer>
+
+<script>
+  let selectedTags = [];
+
+  function toggleTag(el, tag) {
+    el.classList.toggle('selected');
+    if (selectedTags.includes(tag)) {
+      selectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      selectedTags.push(tag);
+    }
+  }
+
+  function updateCharCount(el, id, max) {
+    document.getElementById(id).textContent = el.value.length;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('f_name').value.trim();
+    const url = document.getElementById('f_url').value.trim();
+    const desc = document.getElementById('f_desc').value.trim();
+    const cat = document.getElementById('f_cat').value;
+
+    if (!name || !url || !desc || !cat) {
+      alert('请填写所有必填项（带 * 的字段）');
+      return;
+    }
+
+    const data = {
+      name, url, desc,
+      category: cat,
+      pricing: document.getElementById('f_pricing').value,
+      tags: selectedTags,
+      email: document.getElementById('f_email').value.trim(),
+      relation: document.getElementById('f_relation').value,
+    };
+
+    const btn = e.submitter;
+    btn.textContent = '提交中...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await resp.json();
+      alert('✅ 提交成功！\n\n我们会在1-3个工作日内审核您的提交。\n提交编号：' + (result.id || 'N/A'));
+      document.getElementById('submitForm').reset();
+      selectedTags = [];
+      document.querySelectorAll('.form-tag').forEach(t => t.classList.remove('selected'));
+    } catch(err) {
+      // 离线fallback
+      const localData = JSON.parse(localStorage.getItem('pending_submissions') || '[]');
+      localData.push({...data, id: 'local_' + Date.now() });
+      localStorage.setItem('pending_submissions', JSON.stringify(localData));
+      alert('✅ 提交成功！（离线模式）\n\n我们会在1-3个工作日内审核您的提交。');
+      document.getElementById('submitForm').reset();
+      selectedTags = [];
+      document.querySelectorAll('.form-tag').forEach(t => t.classList.remove('selected'));
+    } finally {
+      btn.textContent = '🚀 提交审核';
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>

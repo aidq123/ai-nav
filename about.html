@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于AI大全 - 最全AI工具导航平台 | Aidq123.cn</title>
+<meta name="description" content="AI大全(Aidq123.cn) - 致力于收录全球最优质的AI工具，帮助每一位用户找到最适合的AI助手，让AI赋能工作与学习。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='lg1' x1='4' y1='4' x2='36' y2='36'%3E%3Cstop offset='0%25' stop-color='%236C5CE7'/%3E%3Cstop offset='100%25' stop-color='%2300CEC9'/%3E%3C/defs%3E%3Crect x='1.5' y='1.5' width='37' height='37' rx='11' fill='url(%23lg1)'/%3E%3Ctext x='20' y='26' text-anchor='middle' font-size='18' font-weight='bold' fill='%23fff'%3EAI%3C/text%3E%3C/svg%3E">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0F0F1A;
+    color: #E8E8F0;
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #A29BFE;
+    --accent: #00CEC9;
+    --bg2: #16162A;
+    --bg3: #1E1E35;
+    --card: #1A1A2E;
+    --text: #E8E8F0;
+    --text2: #A0A0C0;
+    --text3: #606080;
+    --border: rgba(108,92,231,0.15);
+    --border2: rgba(108,92,231,0.3);
+  }
+
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,15,26,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .header-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px; height: 64px;
+  }
+  .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .logo-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    box-shadow: 0 2px 12px rgba(108,92,231,0.35);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-text { font-size: 21px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+
+  .page-banner {
+    text-align: center;
+    padding: 64px 24px 40px;
+    background: linear-gradient(180deg, rgba(108,92,231,0.08) 0%, transparent 100%);
+  }
+  .page-banner h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .page-banner p { color: var(--text2); font-size: 16px; max-width: 500px; margin: 0 auto; }
+
+  .content-wrap {
+    max-width: 800px; margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  .content-wrap h2 {
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .content-wrap h2:first-child { margin-top: 0; }
+  .content-wrap p { color: var(--text2); font-size: 15px; margin-bottom: 16px; }
+  .content-wrap ul { padding-left: 20px; margin-bottom: 16px; }
+  .content-wrap ul li { color: var(--text2); font-size: 15px; margin-bottom: 8px; }
+  .content-wrap .highlight {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .content-wrap .highlight h3 { font-size: 16px; color: var(--primary-light); margin-bottom: 8px; }
+  .content-wrap .highlight p { color: var(--text2); font-size: 14px; margin-bottom: 0; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 28px; font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-card .lbl { font-size: 13px; color: var(--text3); margin-top: 4px; }
+
+  .footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+  }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .footer-brand p { font-size: 13px; color: var(--text3); line-height: 1.7; margin-bottom: 14px; }
+  .footer-links h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+  .footer-links ul { list-style: none; }
+  .footer-links ul li { margin-bottom: 8px; }
+  .footer-links ul li a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  .footer-links ul li a:hover { color: var(--primary-light); }
+  .footer-bottom {
+    max-width: 1280px; margin: 24px auto 0; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--text3);
+  }
+
+  .breadcrumb {
+    max-width: 800px; margin: 0 auto;
+    padding: 16px 24px 0;
+    font-size: 13px;
+    color: var(--text3);
+  }
+  .breadcrumb a { color: var(--text3); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--primary-light); }
+  .breadcrumb span { margin: 0 6px; }
+
+  @media (max-width: 900px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .footer-inner { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px">
+          <rect x="1" y="1" width="36" height="36" rx="10" fill="url(#lg1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <text x="19" y="25.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="13.5" fill="#fff" letter-spacing="-0.3">AI</text>
+        </svg>
+      </div>
+      <span class="logo-text">大全</span>
+    </a>
+  </div>
+</header>
+
+<div class="breadcrumb"><a href="index.html">首页</a> <span>›</span> 关于AI大全</div>
+
+<!-- BANNER -->
+<section class="page-banner">
+  <h1>关于 AI大全</h1>
+  <p>致力于收录全球最优质的AI工具，让每个人都能找到适合自己的AI助手</p>
+</section>
+
+<!-- CONTENT -->
+<article class="content-wrap">
+
+  <h2>🎯 我们的使命</h2>
+  <p>AI大全（Aidq123.cn）成立于2026年，是一个专注于AI工具收录与推荐的导航平台。我们的使命是<strong style="color:#fff">让AI技术触手可及</strong>——通过精心筛选和分类，帮助每一位用户快速找到最适合自己需求的AI工具。</p>
+  <p>无论你是AI新手还是资深开发者，无论你需要AI对话、AI绘图、AI编程还是AI写作工具，AI大全都能为你提供专业、全面的导航服务。</p>
+
+  <div class="highlight">
+    <h3>🌟 核心价值</h3>
+    <p>我们不做AI工具，我们只是优质AI工具的「发现者」和「推荐者」。每一个收录在AI大全的工具，都经过我们的精心筛选和试用，确保为用户提供最真实、最有价值的参考。</p>
+  </div>
+
+  <h2>📊 平台数据</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="num">300+</div><div class="lbl">收录工具</div></div>
+    <div class="stat-card"><div class="num">15+</div><div class="lbl">工具分类</div></div>
+    <div class="stat-card"><div class="num">50万+</div><div class="lbl">月访问量</div></div>
+    <div class="stat-card"><div class="num">每日</div><div class="lbl">实时更新</div></div>
+  </div>
+
+  <h2>✨ 我们的特色</h2>
+  <ul>
+    <li><strong>全面收录</strong>：覆盖AI对话、AI绘图、AI视频、AI编程、AI写作、AI音频、AI搜索、AI办公、AI设计、AI翻译、AI学习、AI智能体、AI 3D等15大分类</li>
+    <li><strong>精准筛选</strong>：每个工具都经过人工审核，确保工具可用、描述准确</li>
+    <li><strong>实时更新</strong>：追踪AI行业最新动态，第一时间收录新推出的优质AI工具</li>
+    <li><strong>免费使用</strong>：AI大全本身完全免费，所有工具导航不收取任何费用</li>
+    <li><strong>用户共建</strong>：支持用户提交工具，共同完善AI工具生态</li>
+  </ul>
+
+  <h2>🚀 发展历程</h2>
+  <div class="highlight">
+    <h3>2026年1月</h3>
+    <p>AI大全项目正式启动，首批收录100+款AI工具</p>
+  </div>
+  <div class="highlight">
+    <h3>2026年3月</h3>
+    <p>完成全部分类体系建设，收录工具突破200款</p>
+  </div>
+  <div class="highlight">
+    <h3>2026年5月</h3>
+    <p>网站全新改版上线，支持用户自主提交工具，收录工具突破300款</p>
+  </div>
+  <div class="highlight">
+    <h3>2026年6月</h3>
+    <p>启用独立域名 Aidq123.cn，持续优化用户体验</p>
+  </div>
+
+  <h2>💡 为什么选择AI大全</h2>
+  <p>市面上的AI工具层出不穷，但质量参差不齐。很多用户在寻找AI工具时面临以下困扰：</p>
+  <ul>
+    <li>不知道有哪些AI工具可以用</li>
+    <li>不知道哪个AI工具最适合自己的需求</li>
+    <li>担心AI工具的安全性、隐私政策</li>
+    <li>想要尝试新工具，但不知道从哪里找</li>
+  </ul>
+  <p>AI大全正是为了解决这些问题而生。我们通过专业的分类、详细的介绍、真实的用户反馈，帮助你快速找到最适合的AI工具。</p>
+
+  <h2>🤝 联系我们</h2>
+  <p>如果你有任何建议、合作意向，或者想要提交AI工具，欢迎通过以下方式联系我们：</p>
+  <ul>
+    <li>工具提交：通过网站首页的「提交工具」按钮自助提交</li>
+    <li>广告合作：请发送邮件至合作邮箱（见广告合作页面）</li>
+    <li>问题反馈：通过网站内留言功能或社交媒体联系我们</li>
+  </ul>
+  <p>我们期待与你一起，让AI更好地服务于每一个人。</p>
+
+</article>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" style="display:flex;align-items:center;gap:11px;text-decoration:none;margin-bottom:14px;">
+        <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#6C5CE7 0%,#00CEC9 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10.5px;font-weight:800;font-family:Arial,sans-serif;letter-spacing:-0.2px;">AI</div>
+        <span style="font-size:17px;font-weight:800;color:#fff;letter-spacing:-0.5px;">大全</span>
+      </a>
+      <p>AI大全 - 专注收录全球优质AI工具<br>帮助你高效找到最适合的AI助手<br>网址：Aidq123.cn</p>
+    </div>
+    <div class="footer-links">
+      <h4>工具分类</h4>
+      <ul>
+        <li><a href="index.html?cat=chat">AI对话助手</a></li>
+        <li><a href="index.html?cat=image">AI图像生成</a></li>
+        <li><a href="index.html?cat=video">AI视频创作</a></li>
+        <li><a href="index.html?cat=code">AI编程助手</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>关于我们</h4>
+      <ul>
+        <li><a href="about.html">关于AI大全</a></li>
+        <li><a href="submit.html">提交工具</a></li>
+        <li><a href="advertise.html">广告合作</a></li>
+        <li><a href="privacy.html">隐私政策</a></li>
+        <li><a href="terms.html">使用条款</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>友情链接</h4>
+      <ul>
+        <li><a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a></li>
+        <li><a href="https://www.anthropic.com" target="_blank" rel="noopener">Anthropic</a></li>
+        <li><a href="https://deepmind.google" target="_blank" rel="noopener">Google DeepMind</a></li>
+        <li><a href="https://huggingface.co" target="_blank" rel="noopener">Hugging Face</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AI大全 Aidq123.cn · 专注发现好用AI工具</span>
+    <span>备案号：待备案</span>
+  </div>
+</footer>
+
+</body>
+</html>

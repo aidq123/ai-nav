@@ -501,7 +501,7 @@ function handleOverlayClick(e) {
 }
 
 // ===== 初始化 =====
-function initApp() {
+async function initApp() {
   const relSel = document.getElementById('f_relation');
   if (relSel) {
     relSel.addEventListener('change', function() {
@@ -515,7 +515,20 @@ function initApp() {
     if (e.key === 'Escape') { closeSubmitModal(); closeAdminModal(); }
   });
 
-  loadTools();
+  // 读取 ?cat=xxx 参数，加载完成后自动筛选分类
+  const params = new URLSearchParams(window.location.search);
+  const catParam = params.get('cat');
+
+  await loadTools();
+
+  if (catParam && categories[catParam]) {
+    filterCategory(catParam, null);
+    // 滚动到分类区域
+    setTimeout(() => {
+      const mainEl = document.querySelector('.main-content');
+      if (mainEl) mainEl.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
 }
 
 // 兼容处理：app.js 在 body 末尾加载，DOM 可能已就绪

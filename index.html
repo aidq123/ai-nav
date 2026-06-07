@@ -697,6 +697,8 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 32px;
   }
+  .footer-logo { display:flex; align-items:center; gap:11px; text-decoration:none; margin-bottom:14px; }
+  .footer-logo:hover { opacity:0.85; }
   .footer-brand .logo-text {
     font-size: 20px;
     margin-bottom: 10px;
@@ -1524,33 +1526,35 @@
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="logo-icon" style="width:30px;height:30px;border-radius:8px; box-shadow:none; flex-shrink:0;">
-        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;">
-          <rect x="1" y="1" width="28" height="28" rx="7" fill="url(#lg1)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
-          <text x="15" y="20.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="10.5" fill="#fff" letter-spacing="-0.2">AI</text>
-        </svg>
-      </div>
-      <span class="logo-text" style="font-size:17px;">大全</span>
+      <a href="index.html" class="footer-logo">
+        <div class="logo-icon" style="width:30px;height:30px;border-radius:8px; box-shadow:none; flex-shrink:0;">
+          <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;">
+            <rect x="1" y="1" width="28" height="28" rx="7" fill="url(#lg1)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+            <text x="15" y="20.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="10.5" fill="#fff" letter-spacing="-0.2">AI</text>
+          </svg>
+        </div>
+        <span class="logo-text" style="font-size:17px;">大全</span>
+      </a>
       <p>AI大全 - 专注收录全球优质AI工具<br>帮助你高效找到最适合的AI助手<br>网址：Aidq123.cn</p>
     </div>
     <div class="footer-links">
       <h4>工具分类</h4>
       <ul>
-        <li><a href="#" onclick="filterCategory('chat')">AI对话助手</a></li>
-        <li><a href="#" onclick="filterCategory('image')">AI图像生成</a></li>
-        <li><a href="#" onclick="filterCategory('video')">AI视频创作</a></li>
-        <li><a href="#" onclick="filterCategory('code')">AI编程助手</a></li>
-        <li><a href="#" onclick="filterCategory('write')">AI写作工具</a></li>
+        <li><a href="index.html?cat=chat">AI对话助手</a></li>
+        <li><a href="index.html?cat=image">AI图像生成</a></li>
+        <li><a href="index.html?cat=video">AI视频创作</a></li>
+        <li><a href="index.html?cat=code">AI编程助手</a></li>
+        <li><a href="index.html?cat=write">AI写作工具</a></li>
       </ul>
     </div>
     <div class="footer-links">
       <h4>关于我们</h4>
       <ul>
-        <li><a href="#">关于AI大全</a></li>
-        <li><a href="#">提交工具</a></li>
-        <li><a href="#">广告合作</a></li>
-        <li><a href="#">隐私政策</a></li>
-        <li><a href="#">使用条款</a></li>
+        <li><a href="about.html">关于AI大全</a></li>
+        <li><a href="submit.html">提交工具</a></li>
+        <li><a href="advertise.html">广告合作</a></li>
+        <li><a href="privacy.html">隐私政策</a></li>
+        <li><a href="terms.html">使用条款</a></li>
       </ul>
     </div>
     <div class="footer-links">
