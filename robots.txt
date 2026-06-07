@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
+# 百度爬虫专用设置
+User-agent: Baiduspider
+Allow: /
+
+# 谷歌爬虫专用设置
+User-agent: Googlebot
+Allow: /
+
+# 禁止爬虫访问后台和管理页面（如有）
+Disallow: /admin/
+Disallow: /api/
+
 Sitemap: https://aidq123.cn/sitemap.xml
