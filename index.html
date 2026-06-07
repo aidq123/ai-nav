@@ -48,7 +48,8 @@
   }
 }
 </script>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='lg1' x1='4' y1='4' x2='36' y2='36'%3E%3Cstop offset='0%25' stop-color='%236C5CE7'/%3E%3Cstop offset='100%25' stop-color='%2300CEC9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='1.5' y='1.5' width='37' height='37' rx='11' fill='url(%23lg1)'/%3E%3Ctext x='20' y='26' text-anchor='middle' font-size='18' font-weight='bold' fill='%23fff'%3EAI%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='lg1' x1='18' y1='18' x2='162' y2='162'%3E%3Cstop offset='0%25' stop-color='%236C5CE7'/%3E%3Cstop offset='100%25' stop-color='%2300CEC9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='8' y='8' width='164' height='164' rx='44' fill='url(%23lg1)'/%3E%3Ctext x='90' y='110' text-anchor='middle' font-size='72' font-weight='bold' fill='%23fff'%3EAI%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --primary: #6C5CE7;
@@ -106,17 +107,17 @@
     flex-shrink: 0;
   }
   .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+  .logo-icon svg {
+    width: 38px;
+    height: 38px;
   }
   .logo-text {
     font-size: 18px;
@@ -1193,7 +1194,31 @@
 <header class="header">
   <div class="header-inner">
     <a href="#" class="logo">
-      <div class="logo-icon">AI</div>
+      <div class="logo-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg1" x1="4" y1="4" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#6C5CE7"/>
+              <stop offset="50%" stop-color="#8B7CF7"/>
+              <stop offset="100%" stop-color="#00CEC9"/>
+            </linearGradient>
+            <linearGradient id="lg2" x1="8" y1="36" x2="32" y2="10" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00CEC9"/>
+              <stop offset="100%" stop-color="#6C5CE7"/>
+            </linearGradient>
+          </defs>
+          <!-- 圆角背景 -->
+          <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="url(#lg1)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <!-- AI 字母 A -->
+          <path d="M13 27L17 14h1.5l4 13h-1.6l-.9-3h-4.5l-.9 3H13zm3-4.5h3l-1.5-5-1.5 5z" fill="#fff"/>
+          <!-- AI 字母 I -->
+          <rect x="25" y="14" width="2.6" height="9.2" rx="1.3" fill="#fff"/>
+          <circle cx="26.3" cy="25.8" r="1.4" fill="#fff"/>
+          <!-- 装饰圆点/光效 -->
+          <circle cx="31" cy="10" r="1.8" fill="rgba(255,255,255,0.45)"/>
+          <circle cx="29" cy="12.5" r="1" fill="rgba(255,255,255,0.22)"/>
+        </svg>
+      </div>
       <span class="logo-text">AI<span>大全</span></span>
     </a>
     <div class="search-bar">
