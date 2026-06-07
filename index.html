@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI导航 - 发现最好用的AI工具</title>
+<meta name="description" content="Aidq123.cn - 全网最全AI工具导航站，收录ChatGPT、Midjourney、Sora等数百款AI工具，助你高效工作">
+<meta name="keywords" content="AI工具,AI导航,ChatGPT,Midjourney,人工智能,AI绘图,AI写作">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #A29BFE;
+    --primary-dark: #4A3DB0;
+    --accent: #00CEC9;
+    --accent2: #FD79A8;
+    --accent3: #FDCB6E;
+    --bg: #0F0F1A;
+    --bg2: #16162A;
+    --bg3: #1E1E35;
+    --card: #1A1A2E;
+    --card2: #252540;
+    --border: rgba(108,92,231,0.15);
+    --border2: rgba(108,92,231,0.3);
+    --text: #E8E8F0;
+    --text2: #A0A0C0;
+    --text3: #606080;
+    --radius: 12px;
+    --radius2: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,15,26,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 64px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+  .logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .logo-text span { color: var(--primary-light); }
+  .search-bar {
+    flex: 1;
+    max-width: 520px;
+    position: relative;
+  }
+  .search-bar input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 10px 20px 10px 44px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-bar input::placeholder { color: var(--text3); }
+  .search-bar input:focus {
+    border-color: var(--primary);
+    background: var(--card2);
+  }
+  .search-bar .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 16px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+  .btn-submit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-submit:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+  .stats-bar span { color: var(--primary-light); font-weight: 600; }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 64px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(108,92,231,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(108,92,231,0.15);
+    border: 1px solid rgba(108,92,231,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--primary-light);
+    margin-bottom: 20px;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 50%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 480px;
+    margin: 0 auto 28px;
+  }
+  .hero-search {
+    max-width: 540px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+  .hero-search input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 28px;
+    padding: 14px 140px 14px 52px;
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .hero-search input::placeholder { color: var(--text3); }
+  .hero-search input:focus { border-color: var(--primary); background: var(--card2); }
+  .hero-search .search-icon-hero {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 18px;
+  }
+  .hero-search .search-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 20px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .hero-search .search-btn:hover { background: var(--primary-dark); }
+  .hero-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .hero-tags span { color: var(--text3); }
+  .hero-tags a {
+    color: var(--text2);
+    text-decoration: none;
+    background: var(--bg3);
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .hero-tags a:hover { color: var(--primary-light); border-color: var(--primary); }
+
+  /* ===== STATS ===== */
+  .stats-section {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px 24px 40px;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 13px; color: var(--text3); margin-top: 2px; }
+
+  /* ===== CATEGORY TABS ===== */
+  .category-nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+    position: sticky;
+    top: 64px;
+    z-index: 90;
+    background: var(--bg);
+  }
+  .cat-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 0;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: transparent;
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .cat-tab:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(108,92,231,0.05); }
+  .cat-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .cat-tab .cat-icon { font-size: 15px; }
+  .cat-count {
+    background: rgba(255,255,255,0.15);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+  }
+  .cat-tab.active .cat-count { background: rgba(255,255,255,0.25); }
+
+  /* ===== MAIN GRID ===== */
+  .main-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-top: 32px;
+  }
+  .section-icon {
+    font-size: 22px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--text3);
+    margin-left: auto;
+  }
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .tool-card:hover {
+    border-color: var(--border2);
+    background: var(--card2);
+    transform: translateY(-2px);
+  }
+  .tool-card:hover::before {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .tool-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .tool-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .badge-free { background: rgba(0,206,201,0.12); color: var(--accent); }
+  .badge-paid { background: rgba(253,121,168,0.12); color: var(--accent2); }
+  .badge-hot { background: rgba(253,203,110,0.15); color: var(--accent3); }
+  .badge-new { background: rgba(108,92,231,0.15); color: var(--primary-light); }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .card-cat-tag {
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--bg3);
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+  .card-visit {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .featured-card {
+    border-color: rgba(108,92,231,0.3);
+    background: linear-gradient(135deg, rgba(108,92,231,0.08) 0%, var(--card) 50%);
+  }
+  .featured-card::before {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0.6;
+  }
+
+  /* ===== FEATURED LARGE CARDS ===== */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .featured-large {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-large:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    background: var(--card2);
+  }
+  .featured-large-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .featured-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    font-size: 26px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .featured-info .name {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .featured-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .featured-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .featured-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+  .featured-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--primary-light);
+    font-weight: 500;
+  }
+  .hot-flag {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(253,121,168,0.15);
+    color: var(--accent2);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(253,121,168,0.25);
+  }
+
+  /* ===== SIDEBAR LAYOUT ===== */
+  .layout-2col {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+  }
+  .sidebar {
+    position: sticky;
+    top: 148px;
+  }
+  .side-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .side-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rank-list { list-style: none; }
+  .rank-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .rank-list li:last-child { border-bottom: none; }
+  .rank-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg3);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .rank-list li:nth-child(1) .rank-num { background: rgba(253,203,110,0.2); color: var(--accent3); }
+  .rank-list li:nth-child(2) .rank-num { background: rgba(108,92,231,0.2); color: var(--primary-light); }
+  .rank-list li:nth-child(3) .rank-num { background: rgba(0,206,201,0.15); color: var(--accent); }
+  .rank-name { flex: 1; color: var(--text2); }
+  .rank-heat { font-size: 11px; color: var(--text3); }
+  .update-list { list-style: none; }
+  .update-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .update-list li:last-child { border-bottom: none; }
+  .update-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .update-time { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .footer-brand .logo-text {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .footer-brand p {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .footer-links h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .footer-links ul { list-style: none; }
+  .footer-links ul li { margin-bottom: 8px; }
+  .footer-links ul li a {
+    font-size: 13px;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links ul li a:hover { color: var(--primary-light); }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 24px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* ===== SEARCH HIGHLIGHT ===== */
+  .search-highlight { display: none; }
+  .tool-card.hidden { display: none; }
+
+  /* ===== NO RESULT ===== */
+  .no-result {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+    display: none;
+  }
+  .no-result h3 { font-size: 16px; margin-bottom: 8px; color: var(--text2); }
+
+  /* ===== SCROLL TOP ===== */
+  .scroll-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+  .scroll-top.visible { opacity: 1; transform: translateY(0); }
+  .scroll-top:hover { background: var(--primary-dark); transform: translateY(-2px) !important; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .layout-2col { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .stats-bar, .btn-submit { display: none; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 40px 16px 28px; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .header-inner { gap: 12px; }
+    .search-bar { max-width: none; }
+    .stats-section { gap: 24px; }
+    .main-content { padding: 0 16px 40px; }
+    .category-nav { padding: 0 16px 16px; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .tool-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+
+  /* ===== TOOLTIP ===== */
+  .tooltip-trigger { position: relative; }
+  .tooltip-trigger:hover .tooltip { display: block; }
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 300;
+  }
+
+  /* ===== MODAL OVERLAY ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease;
+    position: relative;
+  }
+  @keyframes slideUp { from { transform:translateY(30px);opacity:0 } to { transform:translateY(0);opacity:1 } }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 0;
+    margin-bottom: 20px;
+  }
+  .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-title .modal-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--bg3);
+    border-radius: 8px;
+    color: var(--text2);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--card2); color: var(--text); }
+
+  .modal-body { padding: 0 24px 24px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .form-group label .required { color: var(--accent2); margin-left: 3px; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--text3); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+    background: var(--card2);
+  }
+  .form-group input.error,
+  .form-group select.error,
+  .form-group textarea.error {
+    border-color: #e17055;
+  }
+  .form-group .error-msg {
+    font-size: 11px;
+    color: #e17055;
+    margin-top: 4px;
+    display: none;
+  }
+  .form-group .error-msg.show { display: block; }
+  .form-group select option { background: var(--bg2); }
+  .form-group textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+  .form-group .char-count {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+  .form-tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .form-tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .form-tag.selected {
+    background: rgba(108,92,231,0.2);
+    border-color: var(--primary);
+    color: var(--primary-light);
+  }
+  .form-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+  .form-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+  }
+  .modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .btn-cancel {
+    flex: 1;
+    padding: 11px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text2);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-cancel:hover { background: var(--card2); }
+  .btn-submit-form {
+    flex: 2;
+    padding: 11px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-submit-form:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-submit-form:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-submit-form .spin {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg) } }
+
+  /* ===== SUCCESS SCREEN ===== */
+  .submit-success {
+    display: none;
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .submit-success .success-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: pop 0.4s ease;
+  }
+  @keyframes pop { 0%{transform:scale(0)} 80%{transform:scale(1.15)} 100%{transform:scale(1)} }
+  .submit-success h3 { font-size: 20px; color: var(--text); margin-bottom: 8px; }
+  .submit-success p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .submit-success .success-id {
+    margin-top: 16px;
+    padding: 10px 16px;
+    background: var(--bg3);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: monospace;
+  }
+  .submit-success .btn-done {
+    margin-top: 20px;
+    padding: 10px 32px;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .submit-success .btn-done:hover { background: var(--primary-dark); }
+
+  /* ===== TOAST ===== */
+  .toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .toast {
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #fff;
+    animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .toast.success { background: linear-gradient(135deg, #00b894, #00cec9); }
+  .toast.error   { background: linear-gradient(135deg, #e17055, #d63031); }
+  .toast.info    { background: linear-gradient(135deg, var(--primary), var(--accent)); }
+  @keyframes toastIn  { from { opacity:0; transform:translateX(40px) } to { opacity:1; transform:translateX(0) } }
+  @keyframes toastOut { from { opacity:1 } to { opacity:0; transform:translateX(40px) } }
+
+  /* ===== PENDING BADGE ===== */
+  .pending-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(253,203,110,0.15);
+    border: 1px solid rgba(253,203,110,0.4);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #fdcb6e;
+    margin-left: 6px;
+  }
+
+  /* ===== ADMIN PANEL ===== */
+  .admin-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 32px;
+    width: 40px;
+    height: 40px;
+    background: var(--card2);
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    color: var(--text2);
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .admin-btn:hover { background: var(--primary); color: #fff; opacity: 1 !important; border-color: var(--primary); }
+  /* Show admin btn on hover near it */
+  .admin-btn { opacity: 0.15; }
+
+  .admin-modal .modal { max-width: 740px; }
+  .admin-tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+  .admin-tab {
+    padding: 7px 16px;
+    border-radius: 7px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .admin-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .admin-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--bg3);
+    color: var(--text3);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .admin-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table tr:hover td { background: var(--bg3); }
+  .admin-action-btn {
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: all 0.15s;
+  }
+  .btn-approve { background: rgba(0,184,148,0.15); color: #00b894; }
+  .btn-approve:hover { background: #00b894; color: #fff; }
+  .btn-reject  { background: rgba(225,112,85,0.15); color: #e17055; }
+  .btn-reject:hover  { background: #e17055; color: #fff; }
+  .btn-delete  { background: rgba(225,112,85,0.15); color: #e17055; }
+  .btn-delete:hover  { background: #e17055; color: #fff; }
+  .admin-empty { text-align: center; padding: 32px; color: var(--text3); font-size: 14px; }
+  .admin-stats-row { display: flex; gap: 12px; margin-bottom: 16px; }
+  .admin-stat {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .admin-stat .num { font-size: 22px; font-weight: 700; color: var(--primary-light); }
+  .admin-stat .lbl { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* Mobile modal fix */
+  @media (max-width: 600px) {
+    .modal { max-width: 100%; border-radius: 16px 16px 0 0; }
+    .modal-overlay { align-items: flex-end; padding: 0; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">AI</div>
+      <span class="logo-text">AI<span>导航</span></span>
+    </a>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="headerSearch" placeholder="搜索AI工具..." oninput="handleSearch(this.value)">
+    </div>
+    <div class="stats-bar">
+      <span id="toolCount">300+</span> 个AI工具
+    </div>
+    <div class="header-actions">
+      <button class="btn-submit" onclick="openSubmitModal()">+ 提交工具</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">实时更新 · 精选推荐</div>
+  <h1>发现最好用的<br><span class="gradient-text">AI 智能工具</span></h1>
+  <p>收录 300+ 款精选AI工具，覆盖对话、绘图、视频、编程、写作等全场景</p>
+  <div class="hero-search">
+    <span class="search-icon-hero">🔍</span>
+    <input type="text" id="heroSearch" placeholder="搜索ChatGPT、Midjourney、Sora..." oninput="handleSearch(this.value)">
+    <button class="search-btn" onclick="handleSearch(document.getElementById('heroSearch').value)">搜索</button>
+  </div>
+  <div class="hero-tags">
+    <span>热搜：</span>
+    <a href="#" onclick="filterByKeyword('ChatGPT')">ChatGPT</a>
+    <a href="#" onclick="filterByKeyword('Midjourney')">Midjourney</a>
+    <a href="#" onclick="filterByKeyword('Sora')">Sora</a>
+    <a href="#" onclick="filterByKeyword('Gemini')">Gemini</a>
+    <a href="#" onclick="filterByKeyword('Stable Diffusion')">Stable Diffusion</a>
+    <a href="#" onclick="filterByKeyword('Claude')">Claude</a>
+    <a href="#" onclick="filterByKeyword('Copilot')">Copilot</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-item">
+    <div class="stat-num" id="statTools">300+</div>
+    <div class="stat-label">收录工具</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">15+</div>
+    <div class="stat-label">工具类别</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">每日</div>
+    <div class="stat-label">实时更新</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">免费</div>
+    <div class="stat-label">完全免费</div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<nav class="category-nav">
+  <div class="cat-tabs" id="catTabs">
+    <button class="cat-tab active" onclick="filterCategory('all', this)">
+      <span class="cat-icon">✦</span> 全部 <span class="cat-count">300+</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('chat', this)">
+      <span class="cat-icon">💬</span> AI对话 <span class="cat-count">48</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('image', this)">
+      <span class="cat-icon">🎨</span> AI绘图 <span class="cat-count">36</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('video', this)">
+      <span class="cat-icon">🎬</span> AI视频 <span class="cat-count">24</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('code', this)">
+      <span class="cat-icon">💻</span> AI编程 <span class="cat-count">32</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('write', this)">
+      <span class="cat-icon">✍️</span> AI写作 <span class="cat-count">28</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('audio', this)">
+      <span class="cat-icon">🎵</span> AI音频 <span class="cat-count">20</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('search', this)">
+      <span class="cat-icon">🔍</span> AI搜索 <span class="cat-count">18</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('ppt', this)">
+      <span class="cat-icon">📊</span> AI办公 <span class="cat-count">22</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('design', this)">
+      <span class="cat-icon">🖌️</span> AI设计 <span class="cat-count">25</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('translate', this)">
+      <span class="cat-icon">🌐</span> AI翻译 <span class="cat-count">16</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('edu', this)">
+      <span class="cat-icon">📚</span> AI学习 <span class="cat-count">20</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('agent', this)">
+      <span class="cat-icon">🤖</span> AI智能体 <span class="cat-count">18</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('3d', this)">
+      <span class="cat-icon">🧊</span> AI 3D <span class="cat-count">12</span>
+    </button>
+    <button class="cat-tab" onclick="filterCategory('other', this)">
+      <span class="cat-icon">⚡</span> 其他 <span class="cat-count">22</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="layout-2col">
+    <!-- LEFT: TOOL SECTIONS -->
+    <div>
+      <!-- FEATURED -->
+      <div class="section-header" id="sec-featured">
+        <span class="section-icon">⚡</span>
+        <span class="section-title">精选推荐</span>
+        <span class="section-count">编辑精选</span>
+      </div>
+      <div class="featured-grid" id="featuredGrid">
+        <!-- Featured cards injected by JS -->
+      </div>
+
+      <!-- ALL TOOLS BY CATEGORY -->
+      <div id="toolSections">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="no-result" id="noResult">
+        <h3>未找到相关工具</h3>
+        <p>换个关键词试试，或<a href="#submit" style="color:var(--primary-light)">提交新工具</a></p>
+      </div>
+    </div>
+
+    <!-- RIGHT: SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-card-title">🔥 热度排行</div>
+        <ul class="rank-list" id="rankList"></ul>
+      </div>
+      <div class="side-card">
+        <div class="side-card-title">🆕 最新收录</div>
+        <ul class="update-list" id="updateList"></ul>
+      </div>
+      <div class="side-card" style="background:linear-gradient(135deg,rgba(108,92,231,0.12) 0%,var(--card) 100%);border-color:var(--border2)">
+        <div class="side-card-title">📬 提交工具</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px">发现好用的AI工具？告诉我们，帮助更多人发现它</p>
+        <button onclick="openSubmitModal()" style="display:block;width:100%;text-align:center;padding:8px;background:var(--primary);color:#fff;border-radius:8px;font-size:13px;border:none;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">提交工具 →</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ===== SUBMIT MODAL ===== -->
+<div class="modal-overlay" id="submitModal" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="submitModalTitle">
+    <div class="modal-header">
+      <div class="modal-title">
+        <div class="modal-icon">📬</div>
+        <span id="submitModalTitle">提交 AI 工具</span>
+      </div>
+      <button class="modal-close" onclick="closeSubmitModal()" aria-label="关闭">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- SUCCESS SCREEN -->
+      <div class="submit-success" id="submitSuccess">
+        <div class="success-icon">🎉</div>
+        <h3>提交成功！</h3>
+        <p>感谢你的贡献，我们会在 1-3 个工作日内<br>审核并收录你推荐的工具。</p>
+        <div class="success-id" id="successId">提交编号：#<span></span></div>
+        <button class="btn-done" onclick="closeSubmitModal()">好的，知道了</button>
+      </div>
+
+      <!-- FORM -->
+      <form id="submitForm" onsubmit="handleSubmit(event)" novalidate>
+        <div class="form-section-label">基本信息</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>工具名称 <span class="required">*</span></label>
+            <input type="text" id="f_name" placeholder="如：ChatGPT" maxlength="40">
+            <div class="error-msg" id="err_name">请填写工具名称</div>
+          </div>
+          <div class="form-group">
+            <label>工具网址 <span class="required">*</span></label>
+            <input type="url" id="f_url" placeholder="https://..." maxlength="200">
+            <div class="error-msg" id="err_url">请填写有效的网址（含 http/https）</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>工具简介 <span class="required">*</span></label>
+          <textarea id="f_desc" placeholder="用一两句话介绍这个工具的主要功能和特色..." maxlength="120" oninput="updateCharCount(this,'f_desc_count',120)"></textarea>
+          <div class="char-count"><span id="f_desc_count">0</span>/120 字</div>
+          <div class="error-msg" id="err_desc">请填写工具简介（10 字以上）</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>工具分类 <span class="required">*</span></label>
+            <select id="f_cat">
+              <option value="">-- 选择分类 --</option>
+              <option value="chat">💬 AI对话</option>
+              <option value="image">🎨 AI绘图</option>
+              <option value="video">🎬 AI视频</option>
+              <option value="code">💻 AI编程</option>
+              <option value="write">✍️ AI写作</option>
+              <option value="audio">🎵 AI音频</option>
+              <option value="search">🔍 AI搜索</option>
+              <option value="ppt">📊 AI办公</option>
+              <option value="design">🖌️ AI设计</option>
+              <option value="translate">🌐 AI翻译</option>
+              <option value="edu">📚 AI学习</option>
+              <option value="agent">🤖 AI智能体</option>
+              <option value="3d">🧊 AI 3D</option>
+              <option value="other">⚡ 其他</option>
+            </select>
+            <div class="error-msg" id="err_cat">请选择一个分类</div>
+          </div>
+          <div class="form-group">
+            <label>收费模式</label>
+            <select id="f_pricing">
+              <option value="免费">免费</option>
+              <option value="免费/付费">免费 + 付费版</option>
+              <option value="付费">付费</option>
+              <option value="开源免费">开源免费</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>特色标签 <span style="color:var(--text3);font-weight:400">（可多选）</span></label>
+          <div class="form-tag-group" id="tagGroup">
+            <span class="form-tag" onclick="toggleTag(this,'国内可用')">🇨🇳 国内可用</span>
+            <span class="form-tag" onclick="toggleTag(this,'联网搜索')">🔗 联网搜索</span>
+            <span class="form-tag" onclick="toggleTag(this,'多模态')">🧠 多模态</span>
+            <span class="form-tag" onclick="toggleTag(this,'开源')">📖 开源</span>
+            <span class="form-tag" onclick="toggleTag(this,'移动端')">📱 移动端</span>
+            <span class="form-tag" onclick="toggleTag(this,'API可用')">⚡ API可用</span>
+            <span class="form-tag" onclick="toggleTag(this,'中文优化')">汉 中文优化</span>
+            <span class="form-tag" onclick="toggleTag(this,'最新发布')">✨ 最新发布</span>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+        <div class="form-section-label">联系方式（选填）</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>你的邮箱</label>
+            <input type="email" id="f_email" placeholder="用于接收审核结果通知" maxlength="100">
+            <div class="error-msg" id="err_email">邮箱格式不正确</div>
+          </div>
+          <div class="form-group">
+            <label>你与该工具的关系</label>
+            <select id="f_relation">
+              <option value="用户">普通用户推荐</option>
+              <option value="作者">我是工具作者/团队</option>
+              <option value="合作">希望商务合作</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="authorNoteGroup" style="display:none">
+          <label>补充说明（作者填写）</label>
+          <textarea id="f_author_note" placeholder="工具特色、目标用户、合作方式等..." maxlength="200" oninput="updateCharCount(this,'f_note_count',200)"></textarea>
+          <div class="char-count"><span id="f_note_count">0</span>/200 字</div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeSubmitModal()">取消</button>
+          <button type="submit" class="btn-submit-form" id="submitBtn">
+            <div class="spin" id="submitSpin"></div>
+            <span id="submitBtnText">🚀 提交审核</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN MODAL ===== -->
+<div class="modal-overlay admin-modal" id="adminModal" onclick="handleAdminOverlayClick(event)">
+  <div class="modal" style="max-width:760px">
+    <div class="modal-header">
+      <div class="modal-title">
+        <div class="modal-icon">⚙️</div>
+        <span>管理后台</span>
+      </div>
+      <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="admin-stats-row" id="adminStats"></div>
+      <div class="admin-tabs" id="adminTabs">
+        <button class="admin-tab active" onclick="switchAdminTab('pending',this)">待审核</button>
+        <button class="admin-tab" onclick="switchAdminTab('approved',this)">已通过</button>
+        <button class="admin-tab" onclick="switchAdminTab('rejected',this)">已拒绝</button>
+      </div>
+      <div id="adminContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== ADMIN ENTRY (hidden, hover visible) ===== -->
+<button class="admin-btn" onclick="openAdminModal()" title="管理后台">⚙️</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">AI<span style="color:var(--primary-light)">导航</span></span>
+      <p>专注收录全球优质AI工具<br>帮助你高效找到最适合的AI助手<br>域名：Aidq123.cn</p>
+    </div>
+    <div class="footer-links">
+      <h4>工具分类</h4>
+      <ul>
+        <li><a href="#" onclick="filterCategory('chat')">AI对话助手</a></li>
+        <li><a href="#" onclick="filterCategory('image')">AI图像生成</a></li>
+        <li><a href="#" onclick="filterCategory('video')">AI视频创作</a></li>
+        <li><a href="#" onclick="filterCategory('code')">AI编程助手</a></li>
+        <li><a href="#" onclick="filterCategory('write')">AI写作工具</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>关于我们</h4>
+      <ul>
+        <li><a href="#">关于AI导航</a></li>
+        <li><a href="#">提交工具</a></li>
+        <li><a href="#">广告合作</a></li>
+        <li><a href="#">隐私政策</a></li>
+        <li><a href="#">使用条款</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>友情链接</h4>
+      <ul>
+        <li><a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a></li>
+        <li><a href="https://www.anthropic.com" target="_blank" rel="noopener">Anthropic</a></li>
+        <li><a href="https://deepmind.google" target="_blank" rel="noopener">Google DeepMind</a></li>
+        <li><a href="https://huggingface.co" target="_blank" rel="noopener">Hugging Face</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AI导航 Aidq123.cn · 专注发现好用AI工具</span>
+    <span>备案号：待备案</span>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="tools-data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
