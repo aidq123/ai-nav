@@ -82,6 +82,9 @@ export async function onRequestPut(context) {
 
   tools[idx].status = action === "approve" ? "approved" : "rejected";
   tools[idx].reviewedAt = new Date().toISOString();
+  if (action === "approve") {
+    tools[idx].addedAt = new Date().toISOString(); // 记录审核通过时间（用于最新收录排序）
+  }
 
   await env.AI_NAV_KV.put("tools", JSON.stringify(tools));
 

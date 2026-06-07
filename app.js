@@ -64,6 +64,22 @@ function renderAll() {
   renderFeatured();
   applyFilters();
   renderSidebar();
+  loadRankingFromAPI();   // 从后端加载热度排行
+  loadLatestFromAPI();    // 从后端加载最新收录
+}
+
+/** 记录工具点击（异步发送，不阻塞用户操作） */
+function trackClick(toolId) {
+  if (!toolId || !navigator.onLine) return;
+  try {
+    // 使用 sendBeacon 或 fetch（优先 sendBeacon，页面关闭也能发）
+    const payload = JSON.stringify({ id: toolId });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/click', new Blob([payload], { type: 'application/json' }));
+    } else {
+      fetch('/api/click', { method:'POST', headers:{'Content-Type':'application/json'}, body:payload, keepalive:true }).catch(()=>{});
+    }
+  } catch(_) {}
 }
 
 function updateToolCount() {
@@ -87,7 +103,7 @@ function renderFeatured() {
   const el = document.getElementById('featuredGrid');
   if (!el) return;
   el.innerHTML = featured.map(t => `
-    <a class="featured-large" href="${t.url}" target="_blank" rel="noopener">
+    <a class="featured-large" href="${t.url}" target="_blank" rel="noopener" onclick="trackClick('${t.id}')">
       ${t.badge === 'hot' ? '<span class="hot-flag">🔥 热门</span>' : ''}
       <div class="featured-top">
         <div class="featured-logo">${t.logo}</div>
@@ -125,7 +141,7 @@ function renderSections(filtered) {
       </div>
       <div class="tool-grid">
         ${items.map(t => `
-          <a class="tool-card ${t.featured?'featured-card':''}" href="${t.url}" target="_blank" rel="noopener">
+          <a class="tool-card ${t.featured?'featured-card':''}" href="${t.url}" target="_blank" rel="noopener" onclick="trackClick('${t.id}')">
             <div class="card-top">
               <div class="tool-logo">${t.logo}</div>
               <div class="card-meta">
@@ -153,27 +169,103 @@ function renderSections(filtered) {
 }
 
 function renderSidebar() {
-  // 热度排行（随机模拟）
+  // 先用本地数据渲染（API 加载完成后会覆盖）
+  renderRankLocal();
+  renderLatestLocal();
+}
+
+/** 格式化时间：传入 Date 或 ISO 字符串，返回 "今天/昨天/N天前/月日" */
+function timeAgo(dateStr) {
+  if (!dateStr) return '近期';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diff = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+  if (diff < 1) return '今天';
+  if (diff < 2) return '昨天';
+  if (diff <= 5) return `${diff}天前`;
+  if (diff <= 30) return `${Math.floor(diff / 7)}周前`;
+  return `${d.getMonth() + 1}/${d.getDate()}`;
+}
+
+// ===== 热度排行（本地降级版）=====
+function renderRankLocal() {
   const rankEl = document.getElementById('rankList');
-  if (rankEl) {
-    const shuffled = [...tools].sort(() => Math.random()-0.5).slice(0,8);
-    rankEl.innerHTML = shuffled.map((t,i) => `
+  if (!rankEl) return;
+  // 按 badge 权重 + id 排序作为本地降级
+  const weight = { hot: 3, featured: 2, new: 1 };
+  const sorted = [...tools].sort((a, b) => {
+    return (weight[b.badge]||0) - (weight[a.badge]||0) || (b.id - a.id);
+  }).slice(0, 8);
+  rankEl.innerHTML = sorted.map((t, i) => `
+    <li>
+      <span class="rank-num">${i + 1}</span>
+      <span class="rank-name">${t.name}</span>
+      <span class="rank-heat">${formatHeat(weight[t.badge] || 0, i)}k</span>
+    </li>
+  `).join('');
+}
+
+/** 根据排名和权重生成合理的热度数字 */
+function formatHeat(w, idx) {
+  if (w === 3) return Math.floor(85 + Math.random() * 14);   // hot: 85-98k
+  if (w === 2) return Math.floor(65 + Math.random() * 20);   // featured: 65-84k
+  if (w === 1) return Math.floor(40 + Math.random() * 25);   // new: 40-64k
+  return Math.floor(15 + Math.max(0, 25 - idx * 3));          // 普通: 递减
+}
+
+// ===== 最新收录（本地降级版）=====
+function renderLatestLocal() {
+  const updateEl = document.getElementById('updateList');
+  if (!updateEl) return;
+  // 按 id 倒序取最新的
+  const newest = [...tools].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 6);
+  updateEl.innerHTML = newest.length ? newest.map((t, i) => `
+    <li><span class="update-dot"></span>${t.name}<span class="update-time">${timeAgo(t.addedAt)}</span></li>
+  `).join('') : '<li style="color:var(--text3)">暂无新收录工具</li>';
+}
+
+// ===== 从后端加载热度排行 =====
+async function loadRankingFromAPI() {
+  try {
+    const resp = await fetch('/api/ranking', { cache: 'no-store' });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!Array.isArray(data) || data.length === 0) return;
+    const rankEl = document.getElementById('rankList');
+    if (!rankEl) return;
+    rankEl.innerHTML = data.map((t, i) => `
       <li>
-        <span class="rank-num">${i+1}</span>
+        <span class="rank-num">${i + 1}</span>
         <span class="rank-name">${t.name}</span>
-        <span class="rank-heat">${Math.floor(Math.random()*50+50)}k</span>
+        <span class="rank-heat">${formatClickCount(t.clicks)}k</span>
       </li>
     `).join('');
+  } catch (_) {
+    console.warn('热度排行 API 不可用，使用本地数据');
   }
+}
 
-  // 最新收录
-  const updateEl = document.getElementById('updateList');
-  if (updateEl) {
-    const newTools = tools.filter(t=>t.badge==='new').slice(0,6);
-    const dates = ['今天','昨天','2天前','3天前','4天前','5天前'];
-    updateEl.innerHTML = newTools.length ? newTools.map((t,i) => `
-      <li><span class="update-dot"></span>${t.name}<span class="update-time">${dates[i]||'近期'}</span></li>
-    `).join('') : '<li style="color:var(--text3)">暂无新收录工具</li>';
+/** 将点击数格式化为 k 单位的显示值 */
+function formatClickCount(clicks) {
+  if (!clicks || clicks === 0) return Math.floor(10 + Math.random() * 10);
+  if (clicks >= 1000) return (clicks / 1000).toFixed(1).replace(/\.0$/, '');
+  return clicks;
+}
+
+// ===== 从后端加载最新收录 =====
+async function loadLatestFromAPI() {
+  try {
+    const resp = await fetch('/api/latest', { cache: 'no-store' });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!Array.isArray(data) || data.length === 0) return;
+    const updateEl = document.getElementById('updateList');
+    if (!updateEl) return;
+    updateEl.innerHTML = data.map(t => `
+      <li><span class="update-dot"></span>${t.name}<span class="update-time">${timeAgo(t.addedAt)}</span></li>
+    `).join('');
+  } catch (_) {
+    console.warn('最新收录 API 不可用，使用本地数据');
   }
 }
 
